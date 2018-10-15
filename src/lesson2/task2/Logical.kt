@@ -22,10 +22,7 @@ fun isNumberHappy(number: Int): Boolean {
     val b = number / 100 % 10
     val c = number / 10 % 10
     val d = number % 10
-    return when {
-        a + b == c + d -> true
-        else -> false
-    }
+    return a + b == c + d
 }
 
 /**
@@ -48,7 +45,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = when {
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int = when {
-    year % 4 == 0 && year % 100 != 0 || year % 400 == 0 && month == 2 -> 29
+    month == 2 && year % 4 == 0 && year % 100 != 0 || year % 400 == 0 -> 29
     month == 2 -> 28
     month == 7 || month == 8 -> 31
     month % 2 == 1 -> 31
@@ -64,11 +61,10 @@ fun daysInMonth(month: Int, year: Int): Int = when {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = when {
-    r1 < r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) -> true
-    r1 == r2 && x1 == x2 && y1 == y2 -> true
-    r1 == r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) -> true
-    else -> false
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    return r1 < r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) ||
+            r1 == r2 && x1 == x2 && y1 == y2 ||
+            r1 == r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
 }
 
 

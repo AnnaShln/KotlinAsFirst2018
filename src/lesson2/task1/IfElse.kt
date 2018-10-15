@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -63,8 +64,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String = when {
-    age == 12 -> "$age лет"
-    age == 111 -> "$age лет"
+    age >= 11 && age <= 20 -> "$age лет"
+    age >= 111 && age <= 120 -> "$age лет"
     age % 10 == 1 -> "$age год"
     age % 10 == 2 -> "$age года"
     age % 10 == 3 -> "$age года"
@@ -85,10 +86,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s = t1 * v1 + t2 * v2 + t3 * v3
     val a = s / 2
     return when {
-        a == t1 * v1 -> t1
-        a < t1 * v1 -> a / v1
-        a == t1 * v1 + t2 * v2 -> t1 + t2
-        a < t1 * v1 + t2 * v2 && a > t1 * v1 -> t1 + (a - t1 * v1) / v2
+        a <= t1 * v1 -> a / v1
+        a <= t1 * v1 + t2 * v2 && a > t1 * v1 -> t1 + (a - t1 * v1) / v2
         a > t1 * v1 + t2 * v2 -> t1 + t2 + (a - t1 * v1 - t2 * v2) / v3
         else -> t1 + t2 + t3
     }
@@ -105,14 +104,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int = when {
-    kingX == rookX1 && kingY == rookY2 -> 3
-    kingY == rookY2 && kingX == rookX1 -> 3
-    kingX == rookX2 && kingY == rookY1 -> 3
-    kingY == rookY1 && kingX == rookX2 -> 3
-    kingX == rookX1 -> 1
-    kingX == rookX2 -> 2
-    kingY == rookY1 -> 1
-    kingY == rookY2 -> 2
+    kingX == rookX1 && kingY == rookY2 || kingY == rookY2 && kingX == rookX1 || kingY == rookY1 && kingX == rookX2 ||
+            kingX == rookX2 && kingY == rookY1 -> 3
+    kingX == rookX1 || kingY == rookY1 -> 1
+    kingX == rookX2 || kingY == rookY2 -> 2
     else -> 0
 }
 
@@ -129,10 +124,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int = when {
-    kotlin.math.abs(bishopX - kingX) == kotlin.math.abs(bishopY - kingY) && kingX == rookX -> 3
-    kotlin.math.abs(bishopX - kingX) == kotlin.math.abs(bishopY - kingY) && kingY == rookY -> 3
+    abs(bishopX - kingX) == abs(bishopY - kingY) && kingX == rookX ||
+            abs(bishopX - kingX) == abs(bishopY - kingY) && kingY == rookY -> 3
     kingX == rookX || kingY == rookY -> 1
-    kotlin.math.abs(bishopX - kingX) == kotlin.math.abs(bishopY - kingY) -> 2
+    abs(bishopX - kingX) == abs(bishopY - kingY) -> 2
     else -> 0
 }
 
@@ -170,4 +165,3 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     c > a && b > d -> d - c
     else -> -1
 }
-
