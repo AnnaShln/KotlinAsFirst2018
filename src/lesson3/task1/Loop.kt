@@ -68,10 +68,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    val a = 0
-    while (n >= 0) {
-        n / 10
-        a + 1
+    var a = 0
+    var b = n
+    while (b >= 0 || b <= 0) {
+        a++
+        b /= 10
     }
     return a
 }
@@ -116,7 +117,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var a = 2
+    if (n % 2 == 0) return 2
+    var a = 3
     while (n % a != 0)
         a += 1
     return a
@@ -128,7 +130,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var a = n - 1
+    var a = n / 2
     while (n % a != 0)
         a -= 1
     return a
@@ -143,7 +145,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var a = 1
-    for (i in 2..max(m, n))
+    for (i in 2..max(m, n) / 2)
         if (m % i == 0 && n % i == 0) {
             a = i
             break
@@ -159,7 +161,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in sqrt(m.toDouble()).toInt()..sqrt(m.toDouble()).toInt() + 1)
+    for (i in 0..sqrt(n.toDouble()).toInt())
         if (sqr(i) in m..n) return true
     return false
 }

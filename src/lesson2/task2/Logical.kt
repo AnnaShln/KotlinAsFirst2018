@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.abs
 
 /**
  * Пример
@@ -32,11 +33,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = when {
-    x1 == x2 || y1 == y2 || kotlin.math.abs(x2 - x1) == kotlin.math.abs(y2 - y1) -> true
-    else -> false
-}
-
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1 == x2 || y1 == y2
+        || abs(x2 - x1) == abs(y2 - y1)
 
 /**
  * Простая
@@ -47,10 +45,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = when {
 fun daysInMonth(month: Int, year: Int): Int = when {
     month == 2 && year % 4 == 0 && year % 100 != 0 || year % 400 == 0 -> 29
     month == 2 -> 28
-    month == 7 || month == 8 -> 31
-    month % 2 == 1 -> 31
-    month % 2 == 0 -> 30
-    else -> 31
+    month == 7 || month == 8 || month % 2 == 1 -> 31
+    else -> 30
 }
 
 /**
@@ -61,11 +57,8 @@ fun daysInMonth(month: Int, year: Int): Int = when {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    return r1 < r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) ||
-            r1 == r2 && x1 == x2 && y1 == y2 ||
-            r1 == r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        r1 <= r2 && (r2 - r1) * (r2 - r1) >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
 
 
 /**
@@ -77,12 +70,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = when {
-    r >= a && s >= b -> true
-    r >= b && s >= a -> true
-    r >= a && s >= c -> true
-    r >= c && s >= a -> true
-    r >= c && s >= b -> true
-    r >= b && s >= c -> true
-    else -> false
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        r >= a && s >= b || r >= b && s >= a || r >= a && s >= c ||
+                r >= c && s >= a || r >= c && s >= b || r >= b && s >= c
