@@ -102,7 +102,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int = when {
-    kingX == rookX1 && kingY == rookY2 || kingY == rookY1 && kingX == rookX2 -> 3
+    (kingX == rookX1 || kingY == rookY1) && (kingY == rookY2 || kingX == rookX2) -> 3
     kingX == rookX1 || kingY == rookY1 -> 1
     kingX == rookX2 || kingY == rookY2 -> 2
     else -> 0
@@ -156,6 +156,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (min(b, d) - max(a, c) >= 0) return min(b, d) - max(a, c)
-    else return -1
+    return if (min(b, d) - max(a, c) >= 0) min(b, d) - max(a, c)
+    else -1
 }
