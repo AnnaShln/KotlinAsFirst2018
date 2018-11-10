@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import com.sun.org.apache.xml.internal.security.Init
 import lesson1.task1.sqr
 import kotlin.math.*
 
@@ -68,9 +69,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
+    if (n == 0) return 1
     var a = 0
     var b = n
-    while (b >= 0 || b <= 0) {
+    while (b != 0) {
         a++
         b /= 10
     }
@@ -86,13 +88,13 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var a = 1
     var b = 1
-    if (n == 1 || n == 2) return 1
+    return if (n == 1 || n == 2) 1
     else {
         for (i in 3..n) {
             a += b
             b = a - b
         }
-    return a
+        return a
     }
 }
 
@@ -117,11 +119,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    if (n % 2 == 0) return 2
-    var a = 3
-    while (n % a != 0)
-        a += 1
-    return a
+    for (i in 2..sqrt(n.toDouble()).toInt())
+        if (n % i == 0) return i
+    return n
 }
 
 /**
@@ -145,7 +145,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var a = 1
-    for (i in 2..max(m, n) / 2)
+    for (i in 2..min(m, n))
         if (m % i == 0 && n % i == 0) {
             a = i
             break
@@ -161,9 +161,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 0..sqrt(n.toDouble()).toInt())
-        if (sqr(i) in m..n) return true
-    return false
+    val a = sqrt(n.toDouble())
+    val b = floor(a)
+    return (b >= sqrt(m.toDouble()))
 }
 
 /**
@@ -183,15 +183,13 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var a = 0
-    if (x == 1) return 0
-    while (x != 1)
-        if (x % 2 == 0)
-            x / 2
-        else
-            3 * x + 1
-    a += 1
-    return a
+    var a = x
+    var count = 0
+    while (a != 1) {
+        count += 1
+        if (a % 2 == 0) a /= 2 else a = 3 * a + 1
+    }
+    return count
 }
 
 /**
@@ -201,16 +199,13 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
+
 fun sin(x: Double, eps: Double): Double {
-    var a = x % (2 * PI)
+    val a = x % (2 * PI)
     var b = x % (2 * PI)
-    var c = 1
-    while (abs(a) > eps) {
-        a = -a * x * x / (c + 1) / (c + 2)
-        b += a
-        c += 2
-    }
-    return b
+    var number = x % (2 * PI)
+    var c = 1.0
+    return myfun(number, eps, a, b, c)
 }
 
 /**
@@ -221,13 +216,20 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    val d = x % (2 * PI)
-    var a = 1.0
+    val a = x % (2 * PI)
+    var number = 1.0
     var b = 1.0
     var c = 0.0
-    while (abs(a) > eps) {
-        a = -a * d * d / (c + 1) / (c + 2)
-        b += a
+    return myfun(number, eps, a, b, c)
+}
+
+fun myfun(number: Double, eps: Double, a: Double, b: Double, c: Double): Double {
+    var number = number
+    var b = b
+    var c = c
+    while (abs(number) > eps) {
+        number = -number * a * a / (c + 1) / (c + 2)
+        b += number
         c += 2
     }
     return b
@@ -243,12 +245,10 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     var a = n
     var b = 0
-    while (a != 0) {
-        b += (a % 10)
-        b *= 10
+    while (a > 0) {
+        b = b * 10 + a % 10
         a /= 10
     }
-    b /= 10
     return b
 }
 
@@ -278,7 +278,10 @@ fun hasDifferentDigits(n: Int): Boolean {
     while (a > 0) {
         val b = a % 10
         a /= 10
-        if (b != n % 10) c = true
+        if (b != n % 10) {
+            c = true
+            break
+        }
     }
     return c
 }
@@ -292,31 +295,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var s = 0
-    var i = 0
-    var b = 1
-    var d = 10
-    var c = 1
-    var a = 1
-    while (s < n) {
-        i += 1
-        b = i * i
-        while (b / d != 0) {
-            d *= 10
-            c += 1
-        }
-        s += c
-    }
-    s -= c
-    d /= 10
-    while (s != n) {
-        a = b / d % 10
-        d /= 10
-        s += 1
-    }
-    return a
-}
+fun squareSequenceDigit(n: Int): Int = applyOp(n, ::sqr)
 
 /**
  * Сложная
@@ -327,28 +306,19 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
-    var s = 0
+fun fibSequenceDigit(n: Int): Int = applyOp(n, ::fib)
+
+fun applyOp(n: Int, op: (i: Int) -> Int): Int {
+    var number = 0
     var i = 0
+    var a = 0
+    while (number < n) {
+        i++
+        a = op(i)
+        number += digitNumber(a)
+    }
     var b = 1
-    var d = 10
-    var c = 1
-    var a = 1
-    while (s < n) {
-        i += 1
-        b = fib(i)
-        while (b / d != 0) {
-            d *= 10
-            c += 1
-        }
-        s += c
-    }
-    s -= c
-    d /= 10
-    while (s != n) {
-        a = b / d % 10
-        d /= 10
-        s += 1
-    }
-    return a
+    for (g in 1..number - n) b *= 10
+    val c = op(i) / b % 10
+    return c
 }
