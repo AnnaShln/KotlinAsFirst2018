@@ -147,8 +147,9 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
+    val n = mean(list)
     for (i in 0 until list.size)
-        list[i] = list[i] - mean(list)
+        list[i] = list[i] - n
     return list
 }
 
@@ -210,13 +211,11 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val list: MutableList<Int> = mutableListOf()
     var a = n
-    var i = 0
-    while (a != 1) {
+    while (a > 1) {
         list.add(minDivisor(a))
-        a /= list[i]
-        i += 1
+        a /= minDivisor(a)
     }
-    return list.sorted()
+    return list
 }
 
 /**
@@ -238,7 +237,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     val list: MutableList<Int> = mutableListOf()
     var a = n
-    while (a >= 0) {
+    while (a != 0) {
         list.add(a % base)
         a /= base
     }

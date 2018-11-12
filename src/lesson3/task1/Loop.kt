@@ -119,7 +119,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..sqrt(n.toDouble()).toInt())
+    val a = sqrt(n.toDouble())
+    val b = floor(a).toInt()
+    for (i in 2..b)
         if (n % i == 0) return i
     return n
 }
@@ -202,9 +204,9 @@ fun collatzSteps(x: Int): Int {
 
 fun sin(x: Double, eps: Double): Double {
     val a = x % (2 * PI)
-    var b = x % (2 * PI)
-    var number = x % (2 * PI)
-    var c = 1.0
+    val b = x % (2 * PI)
+    val number = x % (2 * PI)
+    val c = 1.0
     return myfun(number, eps, a, b, c)
 }
 
@@ -217,9 +219,9 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     val a = x % (2 * PI)
-    var number = 1.0
-    var b = 1.0
-    var c = 0.0
+    val number = 1.0
+    val b = 1.0
+    val c = 0.0
     return myfun(number, eps, a, b, c)
 }
 
@@ -227,7 +229,7 @@ fun myfun(number: Double, eps: Double, a: Double, b: Double, c: Double): Double 
     var number = number
     var b = b
     var c = c
-    while (abs(number) > eps) {
+    while (abs(number) >= eps) {
         number = -number * a * a / (c + 1) / (c + 2)
         b += number
         c += 2
