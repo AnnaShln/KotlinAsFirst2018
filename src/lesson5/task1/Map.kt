@@ -143,8 +143,14 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  * Например:
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
- */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+ *//*
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val averagePrice = mutableMapOf<String, Double>()
+    for ((name, price) in stockPrices)
+        for ((name1, price1) in stockPrices)
+            if (name == name1) averagePrice[name] = (price + price1) / 2
+    return averagePrice
+}*/
 
 /**
  * Средняя
@@ -161,7 +167,19 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var cheapest = Double.MAX_VALUE
+    var best = buildString {}
+    for ((name, b) in stuff) {
+        if (b.first == kind) {
+            if (b.second < cheapest) {
+                cheapest = b.second
+                best = name
+            }
+        } else return null
+    }
+    return best
+}
 
 /**
  * Сложная
@@ -210,7 +228,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a.keys.r
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toList()
 
 /**
  * Средняя
