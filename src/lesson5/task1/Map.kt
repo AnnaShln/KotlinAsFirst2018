@@ -150,8 +150,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         for ((name1, price1) in stockPrices)
             if (name == name1) averagePrice[name] = (price + price1) / 2
     return averagePrice
-}*/
-
+}
+*/
 /**
  * Средняя
  *
@@ -228,7 +228,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a.keys.r
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toList()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toSet().toList()
 
 /**
  * Средняя
@@ -256,17 +256,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
-    val repeat = mutableMapOf<String, Int>()
-    var count = 0
-    for (let in 0..list.size) {
-        for (let2 in 1..list.size) {
-            if (let == let2) count += 1
-            if (count > 1) repeat[list[let]] = count
-        }
-    }
-    return repeat
-}
+fun extractRepeats(list: List<String>): Map<String, Int> =
+        list.groupingBy { it }.eachCount().filter { (_, it) -> it != 1 }
 
 /**
  * Средняя
