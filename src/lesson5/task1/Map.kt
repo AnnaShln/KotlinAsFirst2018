@@ -103,6 +103,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     }
     return mapC
 }
+
 /**
  * Простая
  *
@@ -143,15 +144,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  * Например:
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
- *//*
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val averagePrice = mutableMapOf<String, Double>()
-    for ((name, price) in stockPrices)
-        for ((name1, price1) in stockPrices)
-            if (name == name1) averagePrice[name] = (price + price1) / 2
-    return averagePrice
-}
-*/
+ */
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+
 /**
  * Средняя
  *
