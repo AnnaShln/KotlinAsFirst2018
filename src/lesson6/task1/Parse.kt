@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -59,7 +61,6 @@ fun main(args: Array<String>) {
     }
 }
 
-
 /**
  * Средняя
  *
@@ -71,7 +72,17 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    val day = parts[0].toIntOrNull()
+    val month = months.indexOf(parts[1]) + 1
+    val year = parts[2].toIntOrNull()
+    if (day == null || month == 0 || year == null || day !in 1 until daysInMonth(month, year)) return ""
+    return String.format("%02d.%02d.%d", day, month, year)
+}
 
 /**
  * Средняя
@@ -83,7 +94,18 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val months = mapOf(1 to "января", 2 to "февраля", 3 to "марта", 4 to "апреля", 5 to "мая", 6 to "июня",
+            7 to "июля", 8 to "августа", 9 to "сентября", 10 to "октября", 11 to "ноября", 12 to "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val day = parts[0].toIntOrNull()
+    val monthNum = parts[1].toIntOrNull()
+    val month = months[monthNum] ?: ""
+    val year = parts[2].toIntOrNull()
+    if (day == null || month == "" || year == null || monthNum !in 1..12) return ""
+    return String.format("%d %s %d", day, month, year)
+}
 
 /**
  * Средняя
@@ -143,7 +165,14 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val sentence = str.toLowerCase().split(" ")
+    var ind = 0
+    for (i in 0..sentence.size - 1)
+        if (sentence[i] == sentence[i + 1]) return ind
+        else ind += sentence[i].length + 1
+    return -1
+}
 
 /**
  * Сложная
