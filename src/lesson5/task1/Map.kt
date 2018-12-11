@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**
  * Пример
  *
@@ -273,14 +276,22 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
-        /*
-{
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var result = Pair(-1, -1)
     val pairs = mutableMapOf<Int, Int>()
-    pairs[list[1]] = 1
+    for (i in 0 until list.size)
+        pairs[list[i]] = i
+    for ((num, ind) in pairs) {
+        val a = number - num
+        if (a in pairs.keys) {
+            val b = pairs[a]!!
+            val min = min(ind, b)
+            val max = max(ind, b)
+            if(max != min) result = Pair(min, max)
+        }
+    }
     return result
-}*/
+}
 
 /**
  * Очень сложная
