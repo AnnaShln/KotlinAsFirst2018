@@ -79,7 +79,6 @@ fun dateStrToDigit(str: String): String {
             "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    if (str.isEmpty()) return ""
     val day = parts[0].toIntOrNull()
     val month = months.indexOf(parts[1]) + 1
     val year = parts[2].toIntOrNull()
@@ -102,11 +101,9 @@ fun dateDigitToStr(digital: String): String {
             "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    if (digital.isEmpty()) return ""
     val day = parts[0].toIntOrNull()
     var number = parts[1].toIntOrNull()
     if (number == null) return ""
-    if (number < 10) number %= 10
     if (number !in 1..12) return ""
     val num = number - 1
     val month = months[num]
@@ -174,7 +171,6 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    if (str.isEmpty()) return -1
     val sentence = str.toLowerCase().split(" ")
     var ind = 0
     for (i in 0 until sentence.size - 1)

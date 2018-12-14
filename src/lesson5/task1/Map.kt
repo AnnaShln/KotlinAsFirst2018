@@ -287,7 +287,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
             val b = pairs[a]!!
             val min = min(ind, b)
             val max = max(ind, b)
-            if(max != min) result = Pair(min, max)
+            if (max != min) result = Pair(min, max)
         }
     }
     return result
