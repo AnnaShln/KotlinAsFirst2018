@@ -80,7 +80,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val letters = mutableMapOf("Ы" to "И", "ы" to "и", "Я" to "А", "я" to "а", "ю" to "у", "Ю" to "У")
+    val reader = File(inputName).readText()
+    val writer = File(outputName).bufferedWriter()
+    val a = reader.replace(Regex("""(?<=[ЖЧШЩжчшщ])[ыяюЫЯЮ]""")) { letters[it.value].toString() }
+    writer.write(a)
+    writer.close()
 }
 
 /**
