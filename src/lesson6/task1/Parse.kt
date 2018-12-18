@@ -102,7 +102,7 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     val day = parts[0].toIntOrNull()
-    var number = parts[1].toIntOrNull()
+    val number = parts[1].toIntOrNull()
     if (number == null) return ""
     if (number !in 1..12) return ""
     val num = number - 1
